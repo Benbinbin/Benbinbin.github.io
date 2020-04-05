@@ -2,22 +2,27 @@
     "navigation":
     [
         {
+            "text": "首页",
+            "target": "index.md",
+            "toc": false
+        },
+        {
             "text": "HTML 笔记",
-            "target": "html-notes/_vnote.json",
+            "target": "HTMLNotes/_vnote.json",
             "navi": true
         },
         {
             "text": "CSS 笔记",
-            "target": "css-notes/_vnote.json",
+            "target": "CSSNotes/_vnote.json",
             "navi": true
         }
     ],
     "actions":
     [
         {
-            "text": "Ben",
-            "icon": "image/Ben.png",
-            "target": "https://benbinbin.github.io/"
+            "text": "Weibo",
+            "icon": "image/weibo.svg",
+            "target": "https://www.weibo.com/binbindesign"
         }
     ]
 }
