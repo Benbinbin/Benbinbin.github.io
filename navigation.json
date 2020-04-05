@@ -1,0 +1,23 @@
+{
+    "navigation":
+    [
+        {
+            "text": "HTML 笔记",
+            "target": "html-notes/_vnote.json",
+            "navi": true
+        },
+        {
+            "text": "CSS 笔记",
+            "target": "css-notes/_vnote.json",
+            "navi": true
+        }
+    ],
+    "actions":
+    [
+        {
+            "text": "Ben",
+            "icon": "image/Ben.png",
+            "target": "https://benbinbin.github.io/"
+        }
+    ]
+}
