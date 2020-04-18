@@ -1,6 +1,13 @@
 # CSS 动画
 人的大脑对对于动态的物体本能地更关注，因此为网页添加合适的动画可以更引人入胜，如 Google 制作的节约能源主题网站 [Your Plan, Your Planet](https://yourplanyourplanet.sustainability.google/) 使用了大量有趣的动画引导用户进行交互探索。
 
+<p class="codepen" data-height="265" data-theme-id="light" data-default-tab="css,result" data-user="benbinbin" data-slug-hash="NWqMjoG" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="Animation example ">
+  <span>See the Pen <a href="https://codepen.io/benbinbin/pen/NWqMjoG">
+  Animation example </a> by Benbinbin (<a href="https://codepen.io/benbinbin">@benbinbin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
 CSS 动画主要使用三个属性：
 
 * **变换  `transform`**：对元素进行变换，包括倾斜 `skew`，旋转 `rotate`，平移 `translate` 和缩放 `scale`

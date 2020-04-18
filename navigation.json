@@ -15,6 +15,11 @@
             "text": "CSS 笔记",
             "target": "CSSNotes/_vnote.json",
             "navi": true
+        },
+        {
+            "text": "作品集",
+            "target": "portfolio.md",
+            "navi": false
         }
     ],
     "actions":
