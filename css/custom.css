@@ -1,0 +1,14 @@
+code {
+  color: #C7254E;
+  background-color: #F9F2F4;
+  padding: 0 0.2em;
+  border-radius: 0.2em;
+}
+
+pre>code {
+  border-left: .3em solid #FF793F;
+}
+
+#viki-navbar {
+  background-color: #2D3436;
+}
