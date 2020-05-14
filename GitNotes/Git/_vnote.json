@@ -1,0 +1,62 @@
+{
+    "created_time": "2019-11-20T00:52:40Z",
+    "files": [
+        {
+            "attachment_folder": "20191120202230884_27657",
+            "attachments": [
+                {
+                    "name": "ud123-udacity-terminal-config.zip"
+                },
+                {
+                    "name": "在 Windows 上配置命令提示符.mp4"
+                }
+            ],
+            "created_time": "2019-11-20T09:07:17Z",
+            "modified_time": "2019-11-24T05:56:56Z",
+            "name": "配置Git.md",
+            "tags": [
+            ]
+        },
+        {
+            "attachment_folder": "20191120170555447_6092",
+            "attachments": [
+                {
+                    "name": "Git 关键术语.pdf"
+                },
+                {
+                    "name": "ud123-git-keyterms.pdf"
+                },
+                {
+                    "name": "gQiWicrreJg.mp4"
+                },
+                {
+                    "name": "压制 commit.mp4"
+                },
+                {
+                    "name": "压制 commit.srt"
+                }
+            ],
+            "created_time": "2019-11-20T07:38:33Z",
+            "modified_time": "2020-01-22T12:49:08Z",
+            "name": "Git基础.md",
+            "tags": [
+            ]
+        },
+        {
+            "attachment_folder": "20191120110952677_27628",
+            "attachments": [
+                {
+                    "name": "Git 提交信息样式指南.pdf"
+                }
+            ],
+            "created_time": "2019-11-20T03:09:43Z",
+            "modified_time": "2019-11-20T07:27:06Z",
+            "name": "Git样式指南.md",
+            "tags": [
+            ]
+        }
+    ],
+    "sub_directories": [
+    ],
+    "version": "1"
+}

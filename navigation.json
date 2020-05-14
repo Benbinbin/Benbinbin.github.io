@@ -7,13 +7,13 @@
             "toc": false
         },
         {
-            "text": "HTML 笔记",
-            "target": "HTMLNotes/_vnote.json",
+            "text": "前端开发笔记",
+            "target": "Frontend/_vnote.json",
             "navi": true
         },
         {
-            "text": "CSS 笔记",
-            "target": "CSSNotes/_vnote.json",
+            "text": "Git 笔记",
+            "target": "GitNotes/_vnote.json",
             "navi": true
         },
         {
