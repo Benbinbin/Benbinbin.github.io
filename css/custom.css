@@ -12,3 +12,9 @@ pre>code {
 #viki-navbar {
   background-color: #2D3436;
 }
+
+main img {
+  border-radius: 0px;
+  background: #ffffff;
+  box-shadow: 5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff;
+}
