@@ -7,3 +7,4 @@
 - [API 字典](https://www.programmableweb.com/apis/directory) 可查询全球多种 API
 - [优达学城 API](https://www.udacity.com/public-api/v1/catalog)
 - [Awesome APIs](https://github.com/TonnyL/Awesome_APIs/blob/master/README-zh.md)
+- [public-apis](https://github.com/public-apis/public-apis)

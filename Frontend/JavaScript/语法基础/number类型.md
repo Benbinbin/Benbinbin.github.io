@@ -119,7 +119,7 @@ alert( isFinite(num) );
 ```
 
 ## 从字符串「读取」数字
-使用加号 `+` 或 `Number()` 的数字转换是严格的。如果一个值不完全是一个数字，而是以数字开头但带有单位的值，则可以使用函数 `parseInt(value)` 和 `parseFloat(value)` 读取字符串中的数字，直到无法读取为止，如果发生错误，则返回收集的数字。函数 `parseInt` 返回一个整数，而 `parseFloat` 将返回一个浮点数
+使用加号 `+` 或 `Number()` 的数字转换是严格的。如果一个字符串不完全是一个数字，而是**以数字开头**但带有单位的值，则可以使用函数 `parseInt(value)` 和 `parseFloat(value)` 读取字符串中的数字，直到无法读取为止，如果发生错误，则返回收集的数字。函数 `parseInt` 返回一个整数，而 `parseFloat` 将返回一个浮点数
 
 ```js
 alert( parseInt('100px') ); // 100

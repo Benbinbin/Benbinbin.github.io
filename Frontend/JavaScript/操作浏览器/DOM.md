@@ -1,9 +1,9 @@
 # DOM
-根据文档对象模型（DOM）HTML 文档是由各种对象构成的，可以通过 JavaScript 来操作这些对象以修改页面，如 `document.body` 表示 `<body>` 标签的对象，可以通过修改该对象的属性 `style.background` 设置网页背景颜色。
+根据文档对象模型（Document Object Model，DOM）HTML 文档是由各种对象构成的，可以通过 JavaScript 来操作这些对象以修改页面，如 `document.body` 表示 `<body>` 标签的对象，可以通过修改该对象的属性 `style.background` 设置网页背景颜色。
 
 ```js
 document.body.style.background = 'red'; // 将背景设置为红色
-setTimeout(() => document.body.style.background = '', 3000); // 恢复回去
+setTimeout(() => document.body.style.background = '', 3000); // 3s 后恢复回去
 ```
 
 ## DOM 树结构
@@ -36,7 +36,7 @@ HTML 文档以树形结构组织起来，DOM 将该结构的每个节点都表�
 
 :bulb: 可以将 HTML 文档源码输入到在线分析工具 [Live DOM Viewer](http://software.hixie.ch/utilities/js/live-dom-viewer/) 以可视化交互形式展现 DOM 结构；也可以使用浏览器的开发者工具，切换到 Elements 选项卡以查看 DOM 结构，并在控制台使用 JavaScript 与其进行交互，如通过 `$0` 表示最后选中的元素对象，`$1` 表示先前选择的元素对象。
 
-浏览器遇到格式不正确的 HTML，它会在形成 DOM 时自动更正它以形成一个正常的 DOM，如顶级标签总是 `<html>` 即使它不存在于 HTML 文档源码中，它也会出现在 DOM 中，因为浏览器会创建它‘对于在页面中可视的内容都需要包装到 `<body>` 内，如果 HTML 文档源码缺省了也会在 DOM 自动补上；浏览器会自动处理文档中的错误，如在读取标签时会自动填补缺失的关闭标签等。
+浏览器遇到格式不正确的 HTML，它会在形成 DOM 时自动更正，以形成一个正常的 DOM，如顶级标签总是 `<html>` 即使它不存在于 HTML 文档源码中，它也会出现在 DOM 中，因为浏览器会创建它。对于在页面中可视的内容都需要包装到 `<body>` 内，如果 HTML 文档源码缺省了也会在 DOM 自动补上；浏览器会自动处理文档中的错误，如在读取标签时会自动填补缺失的关闭标签等。
 
 ```html
 <p>Hello
@@ -53,10 +53,10 @@ HTML 文档以树形结构组织起来，DOM 将该结构的每个节点都表�
 <table id="table"><tr><td>1</td></tr></table>
 ```
 
-![tbody](_v_images/20200505144204377_8489.png)
+![table](_v_images/20200505144204377_8489.png)
 
 ## 遍历 DOM
-DOM 让我们可以对元素和它们中的内容做任何事，但是首先我们需要获取到对应的 DOM 对象。对 DOM 的所有操作都是以 `document` 对象开始（它是 DOM 的主「入口点」），从 `document` 开始通过各种**导航 navigation 属性**（基于树结构中元素之间的层级相对关系）可以访问 DOM 的各个节点（包括文本节点）或节点集合，如可以使用属性 `childNodes` 访问子节点。
+DOM 让我们可以对元素和它们中的内容做任何事，但是首先我们需要获取到对应的 DOM 对象。对 DOM 的所有操作都是以 `document` 对象开始（:bulb: 它是 DOM 的主「入口点」），从 `document` 开始通过各种**导航 navigation 属性**（基于树结构中元素之间的层级相对关系）可以访问 DOM 的各个节点（包括文本节点）或节点集合（使用属性 `childNodes` 访问子节点集合）。
 
 ![DOM navigation properties illustration](_v_images/20200505144900411_984.png)
 
@@ -88,12 +88,23 @@ DOM 让我们可以对元素和它们中的内容做任何事，但是首先我�
 ```
 
 ### 子节点
-* 属性 `childNodes` 表示给定节点的所有子节点的 **集合**，包括文本节点。
-* 属性 `firstChild` 和 `lastChild` 表示给定节点的第一个和最后一个子节点(如果元素存在子节点)，它们实际是简写，相当于 `elem.childNodes[0] === elem.firstChild` 和 `elem.childNodes[elem.childNodes.length - 1] === elem.lastChild`
+* 属性 `childNodes` 表示给定节点的所有子节点的 **集合**（返回一个称为 NodeList 类数组对象，它实时动态反映 DOM 结构，可以通过索引访问其中的元素）
+    NodeList 保存一组有序的节点（包含文本节点），该对象具有属性 `length` 和 `item`，可以获取子节点相关信息
+    ```js
+    let nodeList = elem.childNodes;
+    // 获取子节点的数量
+    console.log(nodeList.length);
+    // 获取第 2 个子节点，两种方法
+    nodeList[1];
+    nodeList.item(1)  
+    ```
+* 属性 `firstChild` 和 `lastChild` 表示给定节点的第一个和最后一个子节点（如果元素存在子节点），它们实际是简写，相当于 `elem.childNodes[0] === elem.firstChild` 和 `elem.childNodes[elem.childNodes.length - 1] === elem.lastChild`
+
+:bulb: 可以使用  `elem.hasChildNodes()` 返回的布尔值的 `true` 或 `false` 来判断节点对象 `elem` 是否含有子节点
 
 :bulb: 需要区分两个术语概念
-- **子节点/子** 是指直系的子元素，即它们给定的元素第一层嵌套元素，如 `<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
-- **子孙元素** 是指嵌套在给定元素中的所有元素，包括子元素、子元素的子元素等。
+- **子节点/元素** 是指直系的子元素，即它们给定的元素第一层嵌套元素，如 `<head>` 和 `<body>` 就是 `<html>` 元素的子元素。
+- **子孙节点/元素** 是指嵌套在给定元素中的所有元素，包括子元素、子元素的子元素等。
 
 ```js
 <html>
@@ -120,7 +131,7 @@ DOM 让我们可以对元素和它们中的内容做任何事，但是首先我�
 
 :warning: 上述实例代码输出最后结果为 `[object HTMLScriptElement]` 即最后一个可以访问的子元素为 `<script>` 但实际上在其后文档下面还有其他元素，这个脚本无法「看到」它们，因为在这个脚本运行的时候，浏览器还没有读到下面的内容。
 
-:warning: 通过 `childNodes` 属性获取的 DOM 集合是一个**类数组的可迭代对象**，但不是一个数组，可以使用循环 for-of 结构来迭代其中的元素（但不要使用 for-in 结构来遍历，因为循环结构会遍历对象所有可枚举的  enumerable 属性，包括一些 DOM 集合特有的方法）；却无法使用数组的方法，如果需要使用数组的方法可以先使用 `Array.from(DOM_collection)` 将 DOM 集合对象转换为数组。
+:warning: 通过 `childNodes` 属性获取的 DOM 集合是一个**类数组的可迭代对象**（但不是一个数组），可以使用循环 for-of 结构来迭代其中的元素（但不要使用 for-in 结构来遍历，因为循环结构会遍历对象所有可枚举的  enumerable 属性，包括一些 DOM 集合特有的方法）；却无法使用数组的方法，如果需要使用数组的方法可以先使用 `Array.from(DOM_collection)` 将 DOM 集合对象转换为数组。
 
 ```js
 for (let node of document.body.childNodes) {
@@ -154,15 +165,19 @@ alert( document.head.nextSibling );   // [object HTMLBodyElement]
 alert( document.body.previousSibling );   // [object HTMLHeadElement]
 ```
 
+:bulb: 在任意子节点中可以使用 `elem.ownerDocument` 获取 `document` 文档节点
+
 ### 纯元素节点导航
-在一些通用的导航属性，如 `childNodes` 中，可以获取所有节点，包括文本节点、元素节点，甚至注释节点，但是在实际开发中一般只是希望操纵代表标签的和形成页面结构的元素节点。
+在一些通用的导航属性，如 `childNodes` 中，可以获取所有节点，包括文本节点、元素节点，甚至注释节点，但是在实际开发中一般只是希望操纵代表标签的和形成页面结构的**元素节点**。
 
 可以使用只匹配**元素节点** 的导航链接 navigation link，它们一般包含 `Element` 关键字
 
-* 属性 `children` 表示给定元素节点的子代节点集合
-* 属性 `firstElementChild` 和 `lastElementChild` 表示给定元素节点的第一个和最后一个子元素节点。
-* 属性 `previousElementSibling` 和 `nextElementSibling` 表示给定元素节点的前一个或后一个兄弟元素节点。
-* 属性 `parentElement` 表示父元素节点
+* 属性 `children` 表示给定元素节点的**子代元素节点**集合，可以使用索引 `n` 获取第 `n` 个子元素节点。:bulb: 可以使用 `elem.childElementCount` 获取当前节点包含的子元素节点的个数
+* 属性 `firstElementChild` 和 `lastElementChild` 表示给定元素节点的**第一个和最后一个子元素节点**。
+* 属性 `previousElementSibling` 和 `nextElementSibling` 表示给定元素节点的**前一个或后一个兄弟元素节点**。
+* 属性 `parentElement` 表示**父元素节点**
+
+
 
 ![element nodes navigation links](_v_images/20200505163616546_2457.png)
 
@@ -189,14 +204,14 @@ alert( document.body.previousSibling );   // [object HTMLHeadElement]
 </html>
 ```
 
-:warning: `parentElement` 属性返回的是元素类型的父节点，而 `parentNode` 返回的是任何类型的父节点，这一点对于 `document.documentElement` 节点有明显的不同（其他节点的父节点一般也都是元素类型的节点，所以这两种属性返回的节点一般都相同），由于 `<html>` 元素节点的父节点 **`document` 并不是一个元素节点**，所以 `parentNode` 返回了 `document`，但 `parentElement` 返回的是 `null`。
+:warning: `parentElement` 属性返回的是元素类型的父节点，而 `parentNode` 返回的是任何类型的父节点，这一点对于 `document.documentElement` 节点有明显的不同（其他节点的父节点一般也都是元素类型的节点，所以这两种属性返回的节点一般都相同），由于 `<html>` 元素节点的父节点 **`document` 并不是一个元素节点**，所以 `document.documentElement.parentNode` 返回了 `document`，但 `document.documentElement.parentElement` 返回的是 `null`。
 
 ```js
 alert( document.documentElement.parentNode ); // document
 alert( document.documentElement.parentElement ); // null
 ```
 
-如果希望从任意节点 `elem` 到 `<html>` 对于节点，而不是到 `document` 节点时，这个细节可能很有用
+如果希望得到从任意节点 `elem` 到 `<html>` 的父节点，而不是到 `document` 节点时，这个细节可能很有用
 
 ```js
 while(elem = elem.parentElement) {   // 从 elem 开始向上不断输出父节点（元素类型），直到 <html>
@@ -241,11 +256,11 @@ while(elem = elem.parentElement) {   // 从 elem 开始向上不断输出父节�
 ![脚本运行结果](_v_images/20200505171752982_10003.png)
 
 ## 搜索元素节点
-当元素彼此靠得近时使用 DOM 导航属性 navigation property 可以快速获取所需的节点，但是如果需要获取页面上的任意元素，还可以通过搜索方法快速获取满足指定条件的元素节点（或 DOM 集合）。
+当元素彼此靠得近时使用 DOM 导航属性 navigation property 可以快速获取所需的节点，但是如果需要获取页面上的任意元素，还可以通过搜索方法快速获取满足指定条件的元素节点（或 HTMLCollection 集合，它是类数组对象，实时反映 DOM 结构）。
 
 :bulb: 这些搜索方的接口/入口依然是 `document` ，即这些方法只能通过 `document` 对象进行调用。
 
-有 6 种主要的方法，可以在 DOM 中搜索节点
+有 6 种主要的方法，可以在 DOM 中搜索节点，返回 HTMLCollection 类数组对象
 
 |                 方法                  | 搜索基于参数 |                                是否可以通过元素调用                                |      是否返回实时 DOM 集合       |
 | --------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------- | -------------------------------------------- |
@@ -253,13 +268,29 @@ while(elem = elem.parentElement) {   // 从 elem 开始向上不断输出父节�
 | `querySelectorAll`           | CSS-selector  | :white_check_mark:                                                                 | :negative_squared_cross_mark: |
 | `getElementById`              | `id`              | :negative_squared_cross_mark:（仅使用 `document` 对象调用） | :negative_squared_cross_mark: |
 | `getElementsByName`         | `name`           | :negative_squared_cross_mark:（仅使用 `document` 对象调用） | :white_check_mark:                 |
-| `getElementsByTagName`    | tag or `'*'`  | :white_check_mark:                                                                 | :white_check_mark:                 |
+| `getElementsByTagName`    | tag or `'*'`（传递 `!` 在 IE 中匹配注释节点）  | :white_check_mark:                                                                 | :white_check_mark:                 |
 | `getElementsByClassName` | class              | :white_check_mark:                                                                 | :white_check_mark:                 |
 
 目前为止最常用的是 `querySelector` 和 `querySelectorAll`，但是 `getElementBy*` 可能会偶尔有用。
 
+:bulb: 此外针对特定的元素类型，浏览器提供了相应的属性获取 HTMLCollection（相应元素节点集合），相当于使用方法 `document.geElementsByTagName(tagName)`
+
+* `document.scripts` 获取页面的所有脚本元素节点的集合
+* `document.links` 获取页面的所有锚标签元素节点的集合
+* `document.images` 获取页面的所有图片标签元素节点的集合
+* `document.forms` 获取页面的所有表单元素节点的集合
+* `tr.cells` 获取指定的表格中特定行的单元格节点的集合
+* `select.options` 获取指定下拉菜单中选项节点的集合
+
+HTMLCollection 是类数组对象（可以使用索引访问其中的元素），它包含多个属性
+* 属性 `length`：HTMLCollection 包含的子节点的数量
+* 属性 `item`
+* 属性 `namedItem`：该属性值是一个方法，它接受一个参数 `.nameItem(parameter)`，返回 HTMLCollection 集合中具有指定 `id` 或 `name` 属性值的（第一个匹配到的）元素
+
+:bulb: 基于 CSS 选择器进行匹配还有两种方法：
+
 - `elem.matches(css)` 用于检查 `elem` 与给定的 CSS 选择器是否匹配。
-- `elem.closest(css)` 用于查找与给定 CSS 选择器相匹配的最近的祖先，`elem` 本身也会被检查。
+- `elem.closest(css)` 用于查找与给定 CSS 选择器相匹配的最近的祖先节点，`elem` 本身也会被检查。
 
 ### getElementById
 如果一个元素有 id 特性 attribute 就可以使用 `document.getElementById(id)` 方法获取该元素。
@@ -304,7 +335,7 @@ while(elem = elem.parentElement) {   // 从 elem 开始向上不断输出父节�
 还有其他通过标签、类属性等查找节点的方法，但在现代 JavaScript 中它们大多已经成为了历史（因为 `querySelector` 功能更强大，写起来更短），可能在一些旧脚本中找到这些方法。
 
 - `elem.getElementsByTagName(tag)` 查找给定标签的元素，并返回它们的 DOM 集合。如果参数是通配符星号 `"*"` 即匹配「任何标签」。
-- `elem.getElementsByClassName(className)` 返回具有给定CSS类的元素的 DOM 集合。
+- `elem.getElementsByClassName(className)` 返回具有给定 CSS 类的元素的 DOM 集合。
 - `document.getElementsByName(name)` 返回在文档范围内具有给定 `name` 特性的元素。
 
 :warning: 上述属性返回可能是 DOM 集合，即匹配多个节点，因此注意在属性关键字有 `s`，即 `getElementsBy*` 而~~不是 `getElementBy*`~~
@@ -389,7 +420,7 @@ alert(articles.length); // 2, found two elements with class "article"
 ```
 
 ### querySelectorAll
-到目前为止最通用的方法是 `elem.querySelectorAll(cssSelector)` 它返回 `elem` 节点内中与给定 CSS 选择器匹配的所有元素节点（DOM 集合），利用丰富的 CSS 选择器类型可以匹配页面任意节点。
+到目前为止最通用的方法是 `elem.querySelectorAll(cssSelector)` 它返回 `elem` 节点内中与给定 CSS 选择器匹配的所有元素节点（返回 **StaticNodeList 一个静态的类数组对象**，包含 DOM 节点集合，但并不动态反映 DOM 结构），利用丰富的 CSS 选择器类型可以匹配页面任意节点；如果没有匹配的元素节点返回空的集合。
 
 ```html
 <ul>
@@ -429,7 +460,7 @@ alert(articles.length); // 2, found two elements with class "article"
 ```
 
 ### querySelector
-`elem.querySelector(cssSelector)` 调用会返回与给定 CSS 选择器匹配的第一个元素，相当于 `elem.querySelectorAll(css)[0]`
+`elem.querySelector(cssSelector)` 调用会返回与给定 CSS 选择器匹配的**第一个匹配的元素**，相当于 `elem.querySelectorAll(css)[0]`；如果没有匹配的元素节点返回 `null`。
 
 ### matches
 `elem.matches(cssSelector)` 检查给定的元素节点 `elem` 是否能与给定的 CSS 选择器匹配，返回 `true` 或 `false`。可用于遍历 DOM 集合并进行过滤筛选。
@@ -690,7 +721,7 @@ alert( document.body instanceof EventTarget ); // true
 ### textContent 属性
 `textContent` 提供了对元素内的 **文本** 的访问权限，即只获取给定节点内的文本，去掉所有 `<tags>` 标签，相当于将所有 `<tags>` 都被剪掉了一样。
 
-```js
+```html
 <div id="news">
   <h1>Headline!</h1>
   <p>Martians attack people!</p>
@@ -724,6 +755,8 @@ alert( document.body instanceof EventTarget ); // true
 
 ![textContent output](_v_images/20200506121427538_1963.png)
 
+:bulb: 类似属性是 `elem.innerText` 获取给定节点内（从开始标签至结束标签之间）的文本，相对应的有属性 `elem.outerText`，但如果赋值会将该节点也替换掉（不常用）。:warning: 但 Firefox 浏览器不支持该属性。
+
 ### hidden 属性
 属性 `hidden` 是一个 HTML 元素的布尔属性，其作用相当于  `style="display:none"` 将元素隐藏，在 DOM 节点中也有该属性，通过 JavaScript 将该属性设置为 `true` 或 `false` 以指定元素是否可见。
 
@@ -736,23 +769,14 @@ alert( document.body instanceof EventTarget ); // true
 </script>
 ```
 
-:bulb: 类似地，很多 HTML 元素特性（attribute）都有相应的 DOM 节点属性（property）（但并不总是相同的），特别是那些依赖于 `class` 的属性，如 `<input>` 元素对应的 DOM 节点 `HTMLInputElement` 支持 `value`、`type` 属性；`<a>` 元素对应的 DOM 节点 `HTMLAnchorElement` 则支持 `href` 属性。
+### 表单属性
+表单元素节点有多种布尔属性
 
-完整列表可在 [HTML Standard](https://html.spec.whatwg.org/) 查找；或者在浏览器控制台使用命令 `console.dir(elem)` 输出节点的所有属性。
-
-```html
-<input type="text" id="elem" value="value">
-
-<script>
-  alert(elem.type); // "text"
-  alert(elem.id); // "elem"
-  alert(elem.value); // value
-</script>
-```
-
-:bulb: 大多数浏览器在其开发者工具中都支持这两个命令 `console.log` 和 `console.dir`。它们将它们的参数输出到控制台中。对于 JavaScript 对象，这些命令通常做的是相同的事。但对于 DOM 元素，它们是不同的：
-- `console.log(elem)` 显示元素的 DOM 树（即 HTML 内容）。
-- `console.dir(elem)` 将元素显示为 DOM 对象，非常适合探索其属性。
+* 属性 `checked` 设置选项选中，适用于单选 `type="radio"` 或多选 `type="checkbox"` 表单
+* 属性 `selected` 设置选项选中，适用于下拉菜单选项 `<option>` 元素节点
+* 属性 `readOnly` 设置输入型表单控件是否只读
+* 属性 `disabled` 设置表单控件是否无效
+* 属性 `mutiple` 设置下拉菜单 `<select>` 元素节点是否为多选
 
 ## 特性和属性
 当浏览器加载页面时，它会「读取」/「解析」HTML 并从中生成 DOM 对象，对于元素节点**大多数标准的 HTML 特性 attributes 会自动变成 DOM 对象的属性 properties**，如标签是 `<body id="page">` 那么 DOM 对象就会有相应的属性 `document.body.id`（属性值为 `"page"`）。
@@ -765,7 +789,26 @@ alert( document.body instanceof EventTarget ); // true
 | 类型 | 任何值，标准的属性具有规范中描述的类型 | 字符串                                    |
 | 名字 | 名字（name）是大小写敏感的                 | 名字（name）是大小写不敏感的 |
 
-:warning: 但特性—属性映射并不是一一对应，只有 标准的 特性才会自动生成相应的 DOM 属性。而且一个元素的标准特性对于另一个元素可能是未知的，如 `"type"` 是 `<input>` 的一个标准的特性（[HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)），但对于 `<body>`（[HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)）来说则不是。
+:warning: **只有 标准的（固有的）特性才会自动生成相应的 DOM 属性**，而且一个元素的标准特性对于另一个元素可能是未知的，如 `"type"` 是 `<input>` 的一个标准的特性（[HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)），但对于 `<body>`（[HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)）来说则不是。另外很多 HTML 固有特性（attribute）与 DOM 节点属性（property）并不总是相同的，特别是那些依赖于 `class` 的属性，如 `<input>` 元素对应的 DOM 节点 `HTMLInputElement` 支持 `value`、`type` 属性；`<a>` 元素对应的 DOM 节点 `HTMLAnchorElement` 则支持 `href` 属性。
+
+```html
+<input type="text" id="elem" value="value">
+
+<script>
+  alert(elem.type); // "text"
+  alert(elem.id); // "elem"
+  alert(elem.value); // value
+</script>
+```
+
+完整的 HTML 固有特性与 DOM 属性列表可在 [HTML Standard](https://html.spec.whatwg.org/) 查找；或者在浏览器控制台使用命令 `console.dir(elem)` 输出节点的所有属性。
+
+大多数浏览器在其开发者工具中都支持 `console.log` 和 `console.dir` 这两个命令，对于 JavaScript 对象这些命令通常做的是相同的事；但对于 DOM 元素，它们是不同的：
+
+- `console.log(elem)` 显示元素的 DOM 树（即 HTML 内容）。
+- `console.dir(elem)` 将元素显示为 DOM 对象，非常适合探索其属性。
+
+:warning: 元素的类 `class` 特性并不会在 DOM 对象中有相应的属性，即不能使用 `elem.class` 获取元素的类，应该使用 `elem.className` 或 `elem.getAttribute('class')`。
 
 ```html
 <body id="test" something="non-standard">
@@ -773,6 +816,24 @@ alert( document.body instanceof EventTarget ); // true
     alert(document.body.id); // test
     // 非标准的特性没有获得对应的属性
     alert(document.body.something); // undefined
+  </script>
+</body>
+```
+
+:bulb: 可以使用 `elem.attributes` 获取元素的**所有特性的集合**（返回的是类数组对象 NamedNodeMap，实时反映 DOM 结构变化，是一个可迭代对象，它有多个属性 `item`（可以使用该属性 `.item(n)` 访问指定的元素）、`length` 等），可以通过索引 `.attribute[n]` 或 `.attributes['attributeName']` 访问指定的元素；也可以通过循环遍历其中的所有元素。元素的特性（标准和非标准的）作为 `name` 和 `value` 属性分别存储在这个对象中。
+
+```html
+<body something="non-standard">
+  <div id="elem" about="Elephant"></div>
+  
+  <script>
+    // 遍历查看所有特性
+    alert( elem.outerHTML );   // <div id="elem" about="Elephant"></div>
+    for (let attr of elem.attributes) {   // 列出所有特性
+      alert( `${attr.name} = ${attr.value}` );
+    }
+    // id = elem
+    // about = Elephant
   </script>
 </body>
 ```
@@ -814,31 +875,23 @@ alert( document.body instanceof EventTarget ); // true
 ```
 
 ### 操作特性
-标准的特性可以通过相应的属性进行操作，但实际上所有特性都可以通过使用以下方法进行访问操作
+标准的特性可以通过相应的属性进行操作，但实际上所有特性（包括非标准/自定义的特性）都可以通过使用以下方法进行访问操作
 
-- `elem.hasAttribute(name)` 检查给定节点对应的元素是否存在名为 `name` 的特性
+- `elem.hasAttribute(name)` 检查给定节点对应的元素是否存在名为 `name` 的特性，返回一个布尔值 `true` 或 `false`
 - `elem.getAttribute(name)` 获取这个特性值。
-- `elem.setAttribute(name, value)` 设置这个特性值。
+- `elem.setAttribute(name, value)` 设置这个特性值，如果属性值是字符串，必须使用引号包括。
 - `elem.removeAttribute(name)` 移除这个特性。
-
-:bulb: 可以使用 `elem.attributes` 获取元素的**所有特性的集合**(可迭代对象)，可以通过循环结构遍历其中的元素。其中的元素（对象）是属于内建 [Attr](https://dom.spec.whatwg.org/#attr) 类，所有元素的特性（标准和非标准的）就是作为 `name` 和 `value` 属性分别存储在这些对象中。
 
 ```html
 <body something="non-standard">
-
   <div id="elem" about="Elephant"></div>
+  
   <script>
     alert( elem.getAttribute('About') );   //'Elephant'，读取非标准特性
     elem.setAttribute('Test', 123);   // 写入新增特性，变成字符串类型（HTML 特性值都是字符串）
 
     // 查看新增的特性是否在 HTML 中
     alert( elem.outerHTML );   // <div id="elem" about="Elephant" test="123"></div>
-    for (let attr of elem.attributes) {   // 列出所有特性
-      alert( `${attr.name} = ${attr.value}` );
-    }
-    // id = elem
-    // about = Elephant
-    // test = 123
   </script>
 </body>
 ```
@@ -937,4 +990,4 @@ DOM 属性不总是字符串类型的，如 `input.checked` 是布尔型的， `
 </script>
 ```
 
-上述实例通过自定义特性 `.order-state-new`，`.order-state-pending`，`order-state-canceled` 标记元素的状态，并使用 JavaScript 切换，以更改元素的外观对应订单的状态。
+上述示例通过自定义特性 `.order-state-new`，`.order-state-pending`，`order-state-canceled` 标记元素的状态，并使用 JavaScript 切换，以更改元素的外观对应订单的状态。

@@ -7,25 +7,29 @@
 - `document.createTextNode(value)` 创建一个文本节点（很少使用）
 - `elem.cloneNode(deep)` 克隆元素，如果 `deep==true` 则与其后代一起克隆
 
+:bulb: 如果需要创建一个注释节点可以使用方法 `document.createComment()`
+
 **插入和移除节点的方法**
 
-- `node.append(...nodes or strings)` 在 `node` 末尾插入，
-- `node.prepend(...nodes or strings)` 在 `node` 开头插入，
+- `node.append(...nodes or strings)` 在 `node` （内部）末尾插入，
+- `node.prepend(...nodes or strings)` 在 `node` （内部）开头插入，
 - `node.before(...nodes or strings)` 在 `node` 之前插入，
 - `node.after(...nodes or strings)` 在 `node` 之后插入，
 - `node.replaceWith(...nodes or strings)` 替换 `node`。
 - `node.remove()` 移除 `node`。
 
-:bulb: 使用这些方法添加 HTML 片段会被作为纯文本插入。
+:warning: 使用这些方法添加 HTML 片段会被作为纯文本插入。
 
 **「旧式」方法**
 
-- `parent.appendChild(node)`
-- `parent.insertBefore(node, nextSibling)`
-- `parent.removeChild(node)`
-- `parent.replaceChild(newElem, node)`
+调用这些方法将节点（HTML 片段）插入到指定位置，而且一般返回新增的 `node`。
 
-:bulb: 调用这些方法都返回 `node`。
+- `parent.appendChild(node)`
+- `parent.insertBefore(node, nextSibling)` 当第二个参数传递 `null` 相当于 `parent.appendChild(node)`
+- `parent.removeChild(node)`
+- `parent.replaceChild(newElem, node)` 返回被替换的节点 `node` 以备还需要使用被删除的节点
+
+
     
 **专门用于插入 `html` 代码的方法** `elem.insertAdjacentHTML(where, html)` 会根据 `where` 的值来插入它：
     
@@ -160,7 +164,7 @@
 ```
 
 ## 克隆节点
-方法 `elem.cloneNode(true)` 创建元素 `elem` 的一个「深」克隆，即拷贝该元素节点的所有特性（attribute）和子元素；如果调用 `elem.cloneNode(false)` 那克隆的节点就不包括子元素。
+方法 `elem.cloneNode(true)` 创建元素 `elem` 的一个「深」克隆，即拷贝该元素节点的所有特性（attribute）和子元素；如果调用 `elem.cloneNode(false)`（默认）克隆的节点就不包括子元素。
 
 ```html
 <style>
@@ -186,6 +190,36 @@
 ```
 
 ![output](_v_images/20200507102708093_11140.png)
+
+## 文本节点合并
+如果通过 DOM 操作为元素添加文本（节点）可能造成视觉上连续的字符串实际是由多个文本节点构成的，这会对后续的 DOM 操作造成不便，可以使用 `parent.normalize()` 将给定的元素节点内的文本节点合并。
+
+```js
+let div = document.querySelector('div');
+let text1 = document.createTextNode('text one');
+let text2 = document.createTextNode('text two');
+
+div.append(text1);
+div.append(text2);
+
+console.log(div.childNodes.length);   // 2
+
+div.normalize();
+console.log(div.childNodes.length);   // 1
+```
+
+## 文本节点分割
+使用 `parent.splitText(n)` 以传递的参数索引，在文本子节点的相应字符的位置分割字符串，返回分割后产生的新的文本子节点（后一半段字符串）。
+
+```js
+let div = document.querySelector('div');
+let text = document.createTextNode('longText');
+div.append(text);
+
+let newNode = div.firstChild.splitText(4);
+console.log(div.firstChild.nodeValue);   // long
+console.log(newNode.nodeValue);   // Text
+```
 
 ## DocumentFragment
 `DocumentFragment` 是一个特殊的 DOM 节点，作为来传递**节点列表**的包装器 wrapper，即我们可以将多个节点先添加 `append` 到该容器中，并将容器再添加到目标节点内，则包装器中的所有节点就会作为内容插入到目标节点内。
