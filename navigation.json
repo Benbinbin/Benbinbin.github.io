@@ -7,18 +7,18 @@
             "toc": false
         },
         {
-            "text": "前端开发笔记",
+            "text": "前端开发",
             "target": "Frontend/_vnote.json",
             "navi": true
         },
         {
-            "text": "Git 笔记",
+            "text": "Git",
             "target": "GitNotes/_vnote.json",
             "navi": true
         },
         {
-            "text": "作品集",
-            "target": "portfolio.md",
+            "text": "资源站",
+            "target": "resource.md",
             "navi": false
         }
     ],
@@ -28,6 +28,16 @@
             "text": "Weibo",
             "icon": "image/weibo.svg",
             "target": "https://www.weibo.com/binbindesign"
+        },
+        {
+            "text": "Juejin",
+            "icon": "image/juejin.svg",
+            "target": "https://juejin.im/user/3175045314389278"
+        },
+        {
+            "text": "Github",
+            "icon": "image/github.svg",
+            "target": "https://github.com/Benbinbin"
         }
     ]
 }
