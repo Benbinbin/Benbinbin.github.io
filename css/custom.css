@@ -1,3 +1,7 @@
+#viki-main-container {
+  min-height: calc(100vh - 116px - 65px);
+}
+
 code {
   color: #C7254E;
   background-color: #F9F2F4;
@@ -17,4 +21,9 @@ main img {
   border-radius: 0px;
   background: #ffffff;
   box-shadow: 5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem
 }
