@@ -8,6 +8,6 @@
 * 数据分析
 * 数据可视化
 
-:point_right: 作品集和练习 DEMO 可以查看[这里](http://benbinbin.gitee.io/portfolio-cn/project.html)
+:point_right: [作品集](http://benbinbin.gitee.io/portfolio-cn/#projects)和[练习 DEMO](http://benbinbin.gitee.io/portfolio-cn/exercise.html)。
 
 :point_right: 可以到我的另一个部落格 [Design Blog](http://binbindesign.gitee.io/) 查看设计相关的笔记。

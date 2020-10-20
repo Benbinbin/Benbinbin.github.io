@@ -12,6 +12,11 @@
             "navi": true
         },
         {
+            "text": "数据可视化",
+            "target": "DataVis/_vnote.json",
+            "navi": true
+        },
+        {
             "text": "Git",
             "target": "GitNotes/_vnote.json",
             "navi": true
@@ -24,11 +29,6 @@
     ],
     "actions":
     [
-        {
-            "text": "Weibo",
-            "icon": "image/weibo.svg",
-            "target": "https://www.weibo.com/binbindesign"
-        },
         {
             "text": "Juejin",
             "icon": "image/juejin.svg",

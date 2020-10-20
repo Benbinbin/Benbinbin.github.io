@@ -21,10 +21,16 @@
             "name": "SASS"
         },
         {
+            "name": "UI"
+        },
+        {
             "name": "JavaScript"
         },
         {
             "name": "框架"
+        },
+        {
+            "name": "Chrome插件"
         },
         {
             "name": "网络"
