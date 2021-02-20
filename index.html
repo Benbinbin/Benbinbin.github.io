@@ -12,12 +12,12 @@
 
 <body>
     <div id="app">
-        <button class="cybr-btn" @click="clickHandler('https://benbinbin.github.io/Portfolio/')">
+        <button class="cybr-btn" @click="clickHandler('/Portfolio/')">
             Portfolio
             <span aria-hidden class="cybr-btn__glitch">Portfolio</span>
             <!-- <span aria-hidden class="cybr-btn__tag">R25</span> -->
         </button>
-        <button class="cybr-btn" @click="clickHandler('https://benbinbin.github.io/tech-blog/')">
+        <button class="cybr-btn" @click="clickHandler('/tech-blog/')">
             Tech Blog
             <span aria-hidden class="cybr-btn__glitch">Tech Blog</span>
             <!-- <span aria-hidden class="cybr-btn__tag">R25</span> -->
@@ -30,7 +30,10 @@
             el: '#app',
             methods: {
                 clickHandler(url) {
-                    window.open(url)
+
+                    // const host = 'https://benbinbin.github.io';
+                    const host = location.host;
+                    window.open(host+url)
                 }
             }
         })
