@@ -5,44 +5,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benbinbin</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <title>Benbinbin One Page</title>
+    <link rel="icon" type="image/png" href="./Ben.png">
+    <!-- <link rel="stylesheet" href="tailwind.build.css"> -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <div id="app">
-        <button class="cybr-btn" @click="clickHandler('/Portfolio/')">
+<body class="w-screen h-screen bg-gray-100 flex flex-col justify-center items-center space-y-16">
+    <img class="w-32 h-32 rounded-lg" src="./Ben.png" alt="avatar icon">
+    <div class="flex flex-col md:flex-row justify-center items-center  space-y-4 md:space-y-0 md:space-x-4">
+        <a class="w-36 p-4 text-lg text-center text-white font-bold rounded-md bg-blue-400 hover:bg-blue-500 transition "
+            href="/Portfolio/" target="_blank">
             Portfolio
-            <span aria-hidden class="cybr-btn__glitch">Portfolio</span>
-            <!-- <span aria-hidden class="cybr-btn__tag">R25</span> -->
-        </button>
-        <button class="cybr-btn" @click="clickHandler('/tech-blog/')">
+        </a>
+        <a class="w-36 p-4 text-lg text-center text-white font-bold rounded-md  bg-green-400 hover:bg-green-500 transition "
+            href="/tech-blog/" target="_blank">
             Tech Blog
-            <span aria-hidden class="cybr-btn__glitch">Tech Blog</span>
-            <!-- <span aria-hidden class="cybr-btn__tag">R25</span> -->
-        </button>
-        <button class="cybr-btn" @click="clickHandler('https://benbinbincollection.github.io/')">
+        </a>
+        <a class="w-36 p-4 text-lg text-center text-white font-bold rounded-md  bg-red-400 hover:bg-red-500 transition "
+            href="https://benbinbincollection.github.io/" target="_blank">
             Collection
-            <span aria-hidden class="cybr-btn__glitch">Collection</span>
-            <!-- <span aria-hidden class="cybr-btn__tag">R25</span> -->
-        </button>
+        </a>
     </div>
-    <!-- Reference: https://codepen.io/jh3y/pen/PoGbxLp -->
 
-    <script>
-        new Vue({
-            el: '#app',
-            methods: {
-                clickHandler(url) {
-
-                    // const host = 'https://benbinbin.github.io';
-                    const host = location.host;
-                    window.open(url)
-                }
-            }
-        })
-    </script>
+    </div>
 </body>
 
 </html>
